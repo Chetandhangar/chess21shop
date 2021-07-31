@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import { ProductListing, CartItems } from './components';
+import { useState } from 'react'
 
 function App() {
-  return (
+  const [currentTab , setCurrentTab] = useState ("products")
+
+  function tabHandler(item){
+    setCurrentTab(item)
+  }
+
+   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+         <button onClick={() => tabHandler("products")}>Products</button>
+         <button onClick={() => tabHandler("cart")}>Cart</button>
+      </div>
+     <div>
+     { currentTab === "products" && <ProductListing />}
+     {currentTab === "cart" && <CartItems />}
+     </div>
+     
     </div>
   );
 }
