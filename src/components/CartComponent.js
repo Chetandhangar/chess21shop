@@ -1,4 +1,4 @@
-import {useCart} from '../contexts/cartContext';
+import {useCart} from '../contexts/data-context';
 
 export function CartItems() {
     const {cartItem: cartProduct, setCartItem} = useCart();  
@@ -6,10 +6,14 @@ export function CartItems() {
     console.log(cartProduct);
 
     function removeCartItemHandler(index){
-        const newItemList = [...cartProduct];
-        newItemList.splice(index,1) 
+        const newItemList = cartProduct.filter((item) => item.id !== index );
+       
         setCartItem(newItemList);
-        alert(`Item Removed ${index}`)
+    
+    }
+    function incQuantity(currentQuantity, product){
+        const newProduct = cartProduct.map((item) => item.id === product.id ? {...product , quantity : product.quantity + 1}: item)
+        setCartItem(newProduct)
     }
 
     return(
@@ -22,8 +26,9 @@ export function CartItems() {
                 cartProduct.map((product, index) =>(
                     <div key ={index}>
                         <h1>{product.name} {product.id}</h1>
-                        <h3>{`Rs : ${product.price}`}</h3>
-                        <button onClick ={() => removeCartItemHandler(index)}>Remove From cart</button>
+                        <h3>Rs : {product.price * product.quantity}</h3>
+                        <h3>{`Quantity : ${product.quantity}`} <button onClick={() => incQuantity(product.quantity, product)}>+</button></h3>
+                        <button onClick ={() => removeCartItemHandler(product.id)}>Remove From cart</button>
                     </div>
                 ))
             }
