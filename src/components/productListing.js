@@ -7,33 +7,40 @@ import { useCart} from '../contexts/data-context';
 
 export const ProductListing = () => {
 
-const {cartItem , setCartItem ,dispatch, sortBy,  showMagneticOnly } = useCart();
+const {cartItem , setCartItem ,dispatch, sortBy,  
+    showMagneticOnly,showWoodenOnly,showFoldableOnly } = useCart();
 
 function addToCartHandler(product){
     const newItem = [...cartItem, {...product, quantity : 1}]
     setCartItem(newItem)
 }
 
-function getSortedList(productList , sortBy){
-  if(sortBy && sortBy === "SORT_HIGH_TO_LOW"){
-      return productList.sort((a,b) => b["price"] - a["price"])
-  }
-  if(sortBy && sortBy === "SORT_LOW_TO_HIGH"){
-      return productList.sort((a,b) => a["price"] - b["price"])
-  }
-  else return productList
-}
+    function getSortedList(productList , sortBy){
+    if(sortBy && sortBy === "SORT_HIGH_TO_LOW"){
+        return productList.sort((a,b) => b["price"] - a["price"])
+    }
+    if(sortBy && sortBy === "SORT_LOW_TO_HIGH"){
+        return productList.sort((a,b) => a["price"] - b["price"])
+    }
+    else return productList
+    }
 
-    function getFilteredData(productList, { showMagneticOnly}){
+    function getFilteredData(productList, 
+        { showMagneticOnly,showWoodenOnly,showFoldableOnly}){
         
         return productList
+            .filter(({isFolding}) =>  showFoldableOnly ? isFolding : true)
             .filter(({isMagnetic}) =>  showMagneticOnly ? isMagnetic : true)
+            .filter(({isWooden}) =>  showWoodenOnly ? isWooden : true)
+          
     }
 
 const sortedData = getSortedList(PRODUCTS, sortBy);
-const filteredData = getFilteredData(sortedData, {   showMagneticOnly})
+const filteredData = getFilteredData(sortedData, 
+    {   showMagneticOnly, showWoodenOnly,showFoldableOnly})
 
 console.log( showMagneticOnly , "magnetic is")
+console.log(showFoldableOnly , "foldable is ")
 
    return(
     <div>
@@ -73,6 +80,27 @@ console.log( showMagneticOnly , "magnetic is")
                     />
                     Magnetic
                 </label>
+                <label>
+                    <input 
+                    type = "checkbox"
+                    name = "filter"
+                    onChange ={() => dispatch({
+                        type : "SHOW_WOODEN_ONLY"
+                    })}
+                    />
+                    Wooden
+                </label>
+                <label>
+                    <input 
+                    type = "checkbox"
+                    name = "filter"
+                    checked={showFoldableOnly}
+                    onChange ={() => dispatch({
+                        type : "SHOW_FOLDABLE_ONLY"
+                    })}
+                    />
+                    Foldable
+                </label>
             </fieldset>
         </div>
         <h1>Products</h1>
@@ -83,7 +111,7 @@ console.log( showMagneticOnly , "magnetic is")
                     <h3>{`Price: ${product.price}`}</h3>
                     <h4>{product.isMagnetic ? <strong>Magnetic</strong> : <strong>Non-Magnetic</strong>}</h4>
                     <h4>{product.isWooden ? <strong>Wooden</strong> : <strong>Plastic</strong>}</h4>
-                    <h4>{product.folding ? <strong>Foldable</strong> : <strong>Non-Foldable</strong>}</h4>
+                    <h4>{product.isFolding ? <strong>Foldable</strong> : <strong>Non-Foldable</strong>}</h4>
                     <button onClick={() => addToCartHandler(product)}>add to cart</button>
                     <button>see Details</button>
                     <hr/>

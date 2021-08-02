@@ -10,13 +10,15 @@ export function CartProvider({children}){
              sortBy : null,
              showMagneticOnly : false,
              showWoodenOnly : false,
-             showFoldableOnly : false
+             showFoldableOnly : false,
          })
     return(
         <CartContext.Provider value={{cartItem,setCartItem,
          dispatch, 
          sortBy : state.sortBy,
-         showMagneticOnly : state.showMagneticOnly }}> 
+         showMagneticOnly : state.showMagneticOnly, 
+         showWoodenOnly : state.showWoodenOnly,
+         showFoldableOnly : state.showFoldableOnly}}> 
             {children}
         </CartContext.Provider>
     )
@@ -40,7 +42,22 @@ export function reducerFun(state, action){
             ...state,
             showMagneticOnly : !state.showMagneticOnly
             }
+        
+            case "SHOW_WOODEN_ONLY":   
+            return{
+                ...state,
+                showWoodenOnly : !state.showWoodenOnly
+                }
 
+        case "SHOW_FOLDABLE_ONLY": 
+        console.log("fladd called")  
+        return{
+            ...state,
+            showFoldableOnly : !state.showFoldableOnly
+            }
+
+       
+        
         default :
         return state;
     }

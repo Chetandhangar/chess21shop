@@ -6,7 +6,7 @@ export const PRODUCTS = [
         price : 500,
         isMagnetic : false,
         isWooden : true,
-        folding : true,
+        isFolding: true,
         descriptiom : ""
     },
     {
@@ -16,7 +16,7 @@ export const PRODUCTS = [
         price : 200,
         isMagnetic : true,
         isWooden : false,
-        folding : true,
+        isFolding: true,
         descriptiom : ""
     },
     {
@@ -26,7 +26,7 @@ export const PRODUCTS = [
         price : 599,
         isMagnetic : false,
         isWooden : true,
-        folding : true,
+        isFolding: true,
         descriptiom : ""
     },
     {
@@ -36,7 +36,7 @@ export const PRODUCTS = [
         price : 500,
         isMagnetic : false,
         isWooden : true,
-        folding : true,
+        isFolding: true,
         descriptiom : ""
     },
     {
@@ -46,7 +46,7 @@ export const PRODUCTS = [
         price : 215,
         isMagnetic : false,
         isWooden : false,
-        folding : false,
+        isFolding: false,
         descriptiom : ""
     },
     {
@@ -56,17 +56,17 @@ export const PRODUCTS = [
         price : 4999,
         isMagnetic : true,
         isWooden : true,
-        folding : true,
+        isFolding: false,
         descriptiom : ""
     },
     {
         id : 7,
-        name : "Larcy Folding chess board",
+        name : "Larcy isFoldingchess board",
         image : "",
         price : 499,
         isMagnetic : false,
         isWooden : true,
-        folding : true,
+        isFolding: true,
         descriptiom : ""
     },
     {
@@ -76,7 +76,7 @@ export const PRODUCTS = [
         price : 599,
         isMagnetic : true,
         isWooden : false,
-        folding : true,
+        isFolding: true,
         descriptiom : ""
     },
     {
@@ -86,7 +86,7 @@ export const PRODUCTS = [
         price : 599,
         isMagnetic : true,
         isWooden : false,
-        folding : true,
+        isFolding: true,
         descriptiom : ""
     },
     {
@@ -96,7 +96,7 @@ export const PRODUCTS = [
         price : 699,
         isMagnetic : false,
         isWooden : false,
-        folding : false,
+        isFolding: false,
         descriptiom : ""
     },
   
