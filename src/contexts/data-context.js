@@ -62,7 +62,7 @@ export function reducerFun(state, action){
             console.log("wishlist called")
             return{
                 ...state,
-                wishList : [...state.wishList , action.payload]
+                wishList : addTOWishList(action.payload, state.wishList)
             }
         case "REMOVE_FROM_WISHLIST":
             console.log("remove called")
@@ -72,5 +72,16 @@ export function reducerFun(state, action){
             }
         default :
         return state;
+    }
+}
+
+export function addTOWishList(product , wishList){
+    let ind = wishList.findIndex((item) => item.id === product.id)
+    if(ind === -1){
+        console.log("Item added to cart")
+        return [...wishList, product];
+    }else{
+        alert("Already in wishList")
+        return [...wishList]
     }
 }

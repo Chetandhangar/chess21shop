@@ -11,8 +11,17 @@ const {cartItem , setCartItem ,dispatch, sortBy,
     showMagneticOnly,showWoodenOnly,showFoldableOnly , wishList} = useCart();
 
 function addToCartHandler(product){
-    const newItem = [...cartItem, {...product, quantity : 1}]
-    setCartItem(newItem)
+    //const newItem = [...cartItem, {...product, quantity : 1}]
+    //setCartItem(newItem)
+    let ind = cartItem.findIndex((cartItem) => cartItem.id === product.id);
+    if (ind === -1) {
+      setCartItem([...cartItem, { ...product, quantity: 1 }]);
+      alert("Item added to cart")
+    } else {
+      cartItem[ind].quantity = cartItem[ind].quantity + 1;
+      setCartItem([...cartItem]);
+      alert("Item Added to cart")
+    }
 }
 
     function getSortedList(productList , sortBy){
@@ -39,9 +48,7 @@ const sortedData = getSortedList(PRODUCTS, sortBy);
 const filteredData = getFilteredData(sortedData, 
     {   showMagneticOnly, showWoodenOnly,showFoldableOnly})
 
-console.log( showMagneticOnly , "magnetic is")
-console.log(showFoldableOnly , "foldable is ")
-console.log(wishList , "wishlist")
+
    return(
     <div>
         <div>
