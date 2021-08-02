@@ -8,7 +8,7 @@ import { useCart} from '../contexts/data-context';
 export const ProductListing = () => {
 
 const {cartItem , setCartItem ,dispatch, sortBy,  
-    showMagneticOnly,showWoodenOnly,showFoldableOnly } = useCart();
+    showMagneticOnly,showWoodenOnly,showFoldableOnly , wishList} = useCart();
 
 function addToCartHandler(product){
     const newItem = [...cartItem, {...product, quantity : 1}]
@@ -41,7 +41,7 @@ const filteredData = getFilteredData(sortedData,
 
 console.log( showMagneticOnly , "magnetic is")
 console.log(showFoldableOnly , "foldable is ")
-
+console.log(wishList , "wishlist")
    return(
     <div>
         <div>
@@ -114,6 +114,10 @@ console.log(showFoldableOnly , "foldable is ")
                     <h4>{product.isFolding ? <strong>Foldable</strong> : <strong>Non-Foldable</strong>}</h4>
                     <button onClick={() => addToCartHandler(product)}>add to cart</button>
                     <button>see Details</button>
+                    <button onClick = {() => dispatch({
+                        type : "ADD_TO_WISH_LIST",
+                        payload : product
+                    })}>Add To WishList</button>
                     <hr/>
                 </div>
             ))}

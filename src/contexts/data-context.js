@@ -11,6 +11,7 @@ export function CartProvider({children}){
              showMagneticOnly : false,
              showWoodenOnly : false,
              showFoldableOnly : false,
+             wishList : []
          })
     return(
         <CartContext.Provider value={{cartItem,setCartItem,
@@ -18,7 +19,8 @@ export function CartProvider({children}){
          sortBy : state.sortBy,
          showMagneticOnly : state.showMagneticOnly, 
          showWoodenOnly : state.showWoodenOnly,
-         showFoldableOnly : state.showFoldableOnly}}> 
+         showFoldableOnly : state.showFoldableOnly,
+         wishList : state.wishList}}> 
             {children}
         </CartContext.Provider>
     )
@@ -55,9 +57,19 @@ export function reducerFun(state, action){
             ...state,
             showFoldableOnly : !state.showFoldableOnly
             }
-
-       
         
+        case "ADD_TO_WISH_LIST":
+            console.log("wishlist called")
+            return{
+                ...state,
+                wishList : [...state.wishList , action.payload]
+            }
+        case "REMOVE_FROM_WISHLIST":
+            console.log("remove called")
+            return{
+                ...state,
+                wishList : state.wishList.filter((item) => item.id !== action.payload.id)
+            }
         default :
         return state;
     }
