@@ -7,7 +7,7 @@ import { useCart} from '../contexts/data-context';
 
 export const ProductListing = () => {
 
-const {cartItem , setCartItem ,dispatch, sortBy} = useCart();
+const {cartItem , setCartItem ,dispatch, sortBy,  showMagneticOnly } = useCart();
 
 function addToCartHandler(product){
     const newItem = [...cartItem, {...product, quantity : 1}]
@@ -24,7 +24,16 @@ function getSortedList(productList , sortBy){
   else return productList
 }
 
+    function getFilteredData(productList, { showMagneticOnly}){
+        
+        return productList
+            .filter(({isMagnetic}) =>  showMagneticOnly ? isMagnetic : true)
+    }
+
 const sortedData = getSortedList(PRODUCTS, sortBy);
+const filteredData = getFilteredData(sortedData, {   showMagneticOnly})
+
+console.log( showMagneticOnly , "magnetic is")
 
    return(
     <div>
@@ -51,9 +60,24 @@ const sortedData = getSortedList(PRODUCTS, sortBy);
                 </label>
             </fieldset>
         </div>
+        <div>
+            <fieldset>
+                <legend>Filter</legend>
+                <label>
+                    <input 
+                    type = "checkbox"
+                    name = "filter"
+                    onChange ={() => dispatch({
+                        type : "SHOW_MAGNETIC_ONLY"
+                    })}
+                    />
+                    Magnetic
+                </label>
+            </fieldset>
+        </div>
         <h1>Products</h1>
         <div>
-            {sortedData.map((product) =>(
+            {filteredData.map((product) =>(
                 <div key={product.id} className="card">
                     <h1>{product.name}</h1>
                     <h3>{`Price: ${product.price}`}</h3>

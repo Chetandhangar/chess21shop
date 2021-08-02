@@ -8,12 +8,15 @@ export function CartProvider({children}){
     const [state, dispatch] = useReducer(reducerFun,
          {
              sortBy : null,
-             showMagenticOnly : false,
+             showMagneticOnly : false,
              showWoodenOnly : false,
              showFoldableOnly : false
          })
     return(
-        <CartContext.Provider value={{cartItem,setCartItem, dispatch, sortBy : state.sortBy}}> 
+        <CartContext.Provider value={{cartItem,setCartItem,
+         dispatch, 
+         sortBy : state.sortBy,
+         showMagneticOnly : state.showMagneticOnly }}> 
             {children}
         </CartContext.Provider>
     )
@@ -32,7 +35,13 @@ export function reducerFun(state, action){
                 sortBy : action.payload
             }
 
-            default :
-            return state;
+        case "SHOW_MAGNETIC_ONLY":   
+        return{
+            ...state,
+            showMagneticOnly : !state.showMagneticOnly
+            }
+
+        default :
+        return state;
     }
 }
