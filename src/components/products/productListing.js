@@ -1,14 +1,39 @@
-import React from 'react';
-import { PRODUCTS } from '../shared/products'
-import { useCart} from '../contexts/data-context';
-
+import React,{useEffect, useState} from 'react';
+import { PRODUCTS } from '../../shared/products'
+import { useCart} from '../../contexts/data-context';
+import {useProducts} from '../../contexts/products-context'
+import axios from 'axios'
 
 
 
 export const ProductListing = () => {
 
+    const [loading , setLoading] = useState(false)
+
 const {cartItem , setCartItem ,dispatch, sortBy,  
     showMagneticOnly,showWoodenOnly,showFoldableOnly , wishList} = useCart();
+
+    const {products, setProducts} = useProducts();
+    const producturl = "https://chess21-1.chetandhangar.repl.co/products"
+    useEffect(() =>{
+        (async ()  =>{
+            try{
+                setLoading(true)
+                const response = await axios.get(producturl)
+                console.log(response.data.products)
+                if(response.status === 200){
+                    setProducts(response.data.products)
+                    setLoading(false)
+                }
+                
+            }catch(err){
+                console.log(err)
+                setLoading(false);
+            }
+            
+        })();
+    },[])
+    console.log(products, "from context")
 
 function addToCartHandler(product){
     //const newItem = [...cartItem, {...product, quantity : 1}]
@@ -36,15 +61,17 @@ function addToCartHandler(product){
 
     function getFilteredData(productList, 
         { showMagneticOnly,showWoodenOnly,showFoldableOnly}){
-        
-        return productList
+        if(productList === null){
+            return
+        }
+        else return productList
             .filter(({isFolding}) =>  showFoldableOnly ? isFolding : true)
             .filter(({isMagnetic}) =>  showMagneticOnly ? isMagnetic : true)
             .filter(({isWooden}) =>  showWoodenOnly ? isWooden : true)
           
     }
 
-const sortedData = getSortedList(PRODUCTS, sortBy);
+const sortedData = getSortedList(products, sortBy);
 const filteredData = getFilteredData(sortedData, 
     {   showMagneticOnly, showWoodenOnly,showFoldableOnly})
 
@@ -112,10 +139,14 @@ const filteredData = getFilteredData(sortedData,
         </div>
         <h1>Products</h1>
         <div>
-            {filteredData.map((product) =>(
+            {filteredData === null && <p>Loading ....</p>}
+            {loading ? <p>Loading ...</p> :
+             <div>
+            {filteredData?.map((product) =>(
                 <div key={product.id} className="card">
                     <h1>{product.name}</h1>
                     <h3>{`Price: ${product.price}`}</h3>
+                    <img src={product.imageurl} alt={product.name}/>
                     <h4>{product.isMagnetic ? <strong>Magnetic</strong> : <strong>Non-Magnetic</strong>}</h4>
                     <h4>{product.isWooden ? <strong>Wooden</strong> : <strong>Plastic</strong>}</h4>
                     <h4>{product.isFolding ? <strong>Foldable</strong> : <strong>Non-Foldable</strong>}</h4>
@@ -128,6 +159,8 @@ const filteredData = getFilteredData(sortedData,
                     <hr/>
                 </div>
             ))}
+            </div>}
+         
         </div>
     </div>
    )
