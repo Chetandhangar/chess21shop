@@ -2,14 +2,16 @@ import React,{useEffect, useState} from 'react';
 import { useCart} from '../../contexts/data-context';
 import {useProducts} from '../../contexts/products-context'
 import axios from 'axios'
-import {useDataCart} from '../../contexts/cart-provider'
+import {useDataCart} from '../../contexts/cart-provider';
+import {useWishList} from '../../contexts/wishlist-context'
 
 
 export const ProductListing = () => {
 
     const [loading , setLoading] = useState(false)
     const {addToCartHandlerContext} = useDataCart()
-
+    const {addToWishList} = useWishList();
+    
     console.log("render again")
 const {cartItem , setCartItem ,dispatch, sortBy,  
     showMagneticOnly,showWoodenOnly,showFoldableOnly } = useCart();
@@ -154,10 +156,7 @@ const filteredData = getFilteredData(sortedData,
                     <h4>{product.isFolding ? <strong>Foldable</strong> : <strong>Non-Foldable</strong>}</h4>
                     <button onClick={() => addToCartHandler(product)}>add to cart</button>
                     <button>see Details</button>
-                    <button onClick = {() => dispatch({
-                        type : "ADD_TO_WISH_LIST",
-                        payload : product
-                    })}>Add To WishList</button>
+                    <button onClick = {() => addToWishList(product)}>Add To WishList</button>
                     <hr/>
                 </div>
             ))}

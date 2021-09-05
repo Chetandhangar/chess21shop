@@ -7,8 +7,8 @@ import {useAuth} from '../contexts/auth-context';
 
 
 export function CartItems() {
-    const {cartItem: cartProduct, setCartItem} = useCart();  
-    const {cart , setCart} = useDataCart();
+    const {cartItem: cartProduct, setCartItem,} = useCart();  
+    const {cart , setCart, removeFromCartHandler, addToCartHandlerContext} = useDataCart();
     const [loading , setLoading] = useState(false)
     const {token} = useAuth();
   
@@ -27,7 +27,7 @@ export function CartItems() {
                     setCart(response.data.cart)
                 }
             }catch(error){
-                if (error.response.status === 401) {
+                if (error.status === 401) {
                     setLoading(false)
                     return navigate("/login");
                   }
@@ -36,12 +36,15 @@ export function CartItems() {
         })();
     }, []) 
 
-    function removeCartItemHandler(index){
+    function removeCartItemHandler(index, product){
+        removeFromCartHandler(product)
         const newItemList = cartProduct.filter((item) => item.id !== index );
         setCartItem(newItemList);
+        
     
     }
     function incQuantity(currentQuantity, product){
+        addToCartHandlerContext(product);
         const newProduct = cartProduct.map((item) => item.id === product.id ? {...product , quantity : product.quantity + 1}: item)
         setCartItem(newProduct)
     }
@@ -52,9 +55,12 @@ export function CartItems() {
         {cart === null && <p>Loading ....</p>}
         {cart?.length <= 0 ? <p>No items in cart</p> : (
             <div>
-                {cart?.map(({product}) => (
+                {cart?.map(({product,quantity}) => (
                     <div key={product._id}>
-                    <h1>{product.name}</h1>    
+                     <h1>{product.name} {product.id}</h1>
+                        <h3>Rs : {product.price * quantity}</h3>
+                        <h3><button onClick={() => removeFromCartHandler(product)}>-</button>{`Quantity : ${quantity}`} <button onClick={() => incQuantity(quantity, product)}>+</button></h3>
+                        <button onClick ={() => removeCartItemHandler(product._id, product)}>Remove From cart</button>
                     </div>
                 ))}
             </div>
