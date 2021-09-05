@@ -1,4 +1,4 @@
-import React,{useState,useReducer,createContext,useContext} from 'react';
+import React,{useState,useReducer,createContext,useContext, useEffect} from 'react';
 import {useAuth} from './auth-context';
 import axios from 'axios';
 
@@ -10,12 +10,32 @@ export function WishListProvider({children}){
     const [state , dispatchWishList] = useReducer(reducer, ({
         wishlist : [],
     }))
-
     const [loading , setLoading] = useState(false); 
- 
-
     const {token} = useAuth();
     const wishlisturl = "https://chess21-1.chetandhangar.repl.co/wishlist";
+
+    useEffect(() => {
+        if(token){
+            (async() =>{
+                try{
+                    setLoading(true)
+                    const response = await axios.get(wishlisturl, 
+                        {headers : {authorization : token}})
+                    console.log(response,'from wishlist response')
+                    if(response.status === 200){
+                        setLoading(false)
+                        dispatchWishList({
+                            type : "UPDATE",
+                            payload : response.data.wishlist
+                        })
+                    }
+                }catch(error){
+                    console.log(error);
+                    setLoading(false)
+                }
+            })();
+        }  
+    },[token])
  
     async function addToWishList(product){
         try{

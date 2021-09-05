@@ -1,17 +1,45 @@
-import {useContext, createContext,useReducer} from 'react';
+import {useContext, createContext,useReducer, useEffect, useState} from 'react';
 import axios from 'axios';
-import {useAuth} from './auth-context'
+import {useAuth} from './auth-context';
 
 export const CartContext = createContext();
 
 export function CartDataProvider({children}){
+    
    const [state,dispatchCart] = useReducer(reducer, ({
        cart  : []
    }))
-
+   const [loading , setLoading] = useState(false)
+    const carturl = "https://chess21-1.chetandhangar.repl.co/cart"
     const addtocarturl = "https://chess21-1.chetandhangar.repl.co/cart/add"
     const removefromcarturl = "https://chess21-1.chetandhangar.repl.co/cart/remove"
     const {token} = useAuth();
+
+    useEffect(() => {
+        if(token){
+            (async() => {
+                try{
+                    setLoading(true)
+                    const response = await axios.get(carturl , {headers : {authorization : token}}) 
+                    console.log(response)
+                    if(response.status === 200){
+                        setLoading(false)
+                        dispatchCart({
+                            type : "UPDATE_CART",
+                            payload : response.data.cart
+                        })
+                        
+                    }
+                }catch(error){
+                    if (error.status === 401) {
+                        console.log(error)
+                        setLoading(false)
+                      }
+                }  
+            })();
+        }
+       
+    },[token]) 
 
     async function addToCartHandlerContext(product){
        console.log("called from context", product)
@@ -29,9 +57,7 @@ export function CartDataProvider({children}){
             }
        }catch(error){
            console.error(error);
-       }
-    
-        
+       }   
     }
 
     async function removeFromCartHandler(product,quantity){
@@ -56,6 +82,7 @@ export function CartDataProvider({children}){
 
     return(
         <CartContext.Provider value={{cart  : state.cart, 
+        loading,
         dispatchCart,
         addToCartHandlerContext,
         removeFromCartHandler}}>

@@ -1,38 +1,17 @@
-import React,{useEffect, useState} from 'react';
 import { useCart} from '../../contexts/data-context';
 import {useProducts} from '../../contexts/products-context'
-import axios from 'axios'
 import {useDataCart} from '../../contexts/cart-provider';
 import {useWishList} from '../../contexts/wishlist-context'
 
 
 export const ProductListing = () => {
 
-    const [loading , setLoading] = useState(false)
     const {addToCartHandlerContext} = useDataCart()
     const {addToWishList} = useWishList();
     const {dispatch, sortBy, showMagneticOnly,showWoodenOnly,showFoldableOnly } = useCart();
 
-    const {products, setProducts} = useProducts();
-    const producturl = "https://chess21-1.chetandhangar.repl.co/products"
-    useEffect(() =>{
-        (async ()  =>{
-            try{
-                setLoading(true)
-                const response = await axios.get(producturl)
-                console.log(response.data.products)
-                if(response.status === 200){
-                    setProducts(response.data.products)
-                    setLoading(false)
-                }
-                
-            }catch(err){
-                console.log(err)
-                setLoading(false);
-            }
-            
-        })();
-    },[])
+    const {products,} = useProducts();
+
     console.log(products, "from context")
 
 
@@ -126,9 +105,7 @@ const filteredData = getFilteredData(sortedData,
         </div>
         <h1>Products</h1>
         <div>
-            {filteredData === null && <p>Loading ....</p>}
-            {loading ? <p>Loading ...</p> :
-             <div>
+            {!filteredData && <p>Loading ....</p>}
             {filteredData?.map((product) =>(
                 <div key={product.id} className="card">
                     <h1>{product.name}</h1>
@@ -143,7 +120,7 @@ const filteredData = getFilteredData(sortedData,
                     <hr/>
                 </div>
             ))}
-            </div>}
+    
          
         </div>
     </div>
