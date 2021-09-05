@@ -9,7 +9,7 @@ import { CartProvider } from './contexts/data-context';
 import {ProductProvider} from './contexts/products-context';
 import {CartDataProvider} from './contexts/cart-provider';
 import {WishListProvider} from './contexts/wishlist-context'
-import {AuthProvider} from './contexts/auth-context'
+import {AuthProvider} from './contexts/auth-context';
 import { BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(

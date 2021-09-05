@@ -11,10 +11,7 @@ export const ProductListing = () => {
     const [loading , setLoading] = useState(false)
     const {addToCartHandlerContext} = useDataCart()
     const {addToWishList} = useWishList();
-    
-    console.log("render again")
-const {cartItem , setCartItem ,dispatch, sortBy,  
-    showMagneticOnly,showWoodenOnly,showFoldableOnly } = useCart();
+    const {dispatch, sortBy, showMagneticOnly,showWoodenOnly,showFoldableOnly } = useCart();
 
     const {products, setProducts} = useProducts();
     const producturl = "https://chess21-1.chetandhangar.repl.co/products"
@@ -38,20 +35,6 @@ const {cartItem , setCartItem ,dispatch, sortBy,
     },[])
     console.log(products, "from context")
 
-function addToCartHandler(product){
-    //const newItem = [...cartItem, {...product, quantity : 1}]
-    //setCartItem(newItem)
-    addToCartHandlerContext(product)
-    let ind = cartItem.findIndex((cartItem) => cartItem.id === product.id);
-    if (ind === -1) {
-      setCartItem([...cartItem, { ...product, quantity: 1 }]);
-      alert("Item added to cart")
-    } else {
-      cartItem[ind].quantity = cartItem[ind].quantity + 1;
-      setCartItem([...cartItem]);
-      alert("Item Added to cart")
-    }
-}
 
     function getSortedList(productList , sortBy){
     if(sortBy && sortBy === "SORT_HIGH_TO_LOW"){
@@ -154,7 +137,7 @@ const filteredData = getFilteredData(sortedData,
                     <h4>{product.isMagnetic ? <strong>Magnetic</strong> : <strong>Non-Magnetic</strong>}</h4>
                     <h4>{product.isWooden ? <strong>Wooden</strong> : <strong>Plastic</strong>}</h4>
                     <h4>{product.isFolding ? <strong>Foldable</strong> : <strong>Non-Foldable</strong>}</h4>
-                    <button onClick={() => addToCartHandler(product)}>add to cart</button>
+                    <button onClick={() =>  addToCartHandlerContext(product)}>add to cart</button>
                     <button>see Details</button>
                     <button onClick = {() => addToWishList(product)}>Add To WishList</button>
                     <hr/>
