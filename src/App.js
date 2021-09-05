@@ -5,11 +5,7 @@ import {Routes, Route} from 'react-router-dom'
 
 
 function App() {
-  const [currentTab , setCurrentTab] = useState ("products")
 
-  function tabHandler(item){
-    setCurrentTab(item)
-  }
 
    return (
     <div className="App">

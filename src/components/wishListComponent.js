@@ -1,7 +1,10 @@
+import React, {useState} from 'react'
 import { useCart } from '../contexts/data-context'
+import {useAuth} from '../contexts/auth-context'
 
 export const  WishList = () => {
-    
+    //cosnt [loading .setLoading] = useState(false)
+    //const {isUserLogin,token} = useAuth()
     const {wishList, dispatch} = useCart();
     
     return(

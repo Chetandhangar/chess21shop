@@ -1,15 +1,20 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Form,FormGroup, Label, Input , Button, } from 'reactstrap';
 import {Link} from 'react-router-dom'
+import {useAuth} from '../contexts/auth-context'
 
 export const Login = () => {
-
-
-    let username, password;
-
-    const handleLogin = () =>{
-
+    const [username , setUsername] = useState("");
+    const [password , setPassword] = useState("");
+    const {isUserLogin, setUserLogin, loginWithCredential} = useAuth();
+    const handleLogin = (e) =>{
+        e.preventDefault() 
+        loginWithCredential(username,password)
+        setUsername("")
+        setPassword("")
     }
+
+    
 
     return(
         <div className="container">
@@ -20,7 +25,8 @@ export const Login = () => {
                    type="text"
                    name = "username"
                    id="username"
-                   innerRef = {(input) => username = input}
+                   value={username}
+                   onChange={(e) => setUsername(username => username = e.target.value)}
                    />
                </FormGroup>
                <FormGroup>
@@ -29,6 +35,8 @@ export const Login = () => {
                    type="password"
                    id="password"
                    name="password"
+                   value= {password}
+                   onChange={(e) => setPassword(password => password = e.target.value)}
                    />
                </FormGroup>
                <FormGroup>

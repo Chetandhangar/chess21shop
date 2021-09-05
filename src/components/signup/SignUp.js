@@ -1,7 +1,8 @@
 import React,{useEffect, useState} from 'react'
 import {Form , FormGroup, Label, Input, Button} from 'reactstrap';
 import './styles.css'
-import axios from 'axios'
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom'
 
 export const Signup = () =>{
     const [firstname,setFirstname] = useState("")
@@ -9,9 +10,10 @@ export const Signup = () =>{
     const [password , setPassword] = useState("");
     const [email,setEmail] = useState("");
     const [username, setUsername] = useState("")
-    const signupurl = "https://chess21-1.chetandhangar.repl.co/users/signup"
-    const user = "https://chess21-1.chetandhangar.repl.co/user";
     const [loading , setLoading] = useState(false);
+
+    const signupurl = "https://chess21-1.chetandhangar.repl.co/users/signup"
+    const navigate = useNavigate();
 
     /*useEffect(() =>{
         (async () =>{
@@ -43,6 +45,7 @@ export const Signup = () =>{
             setUsername("")
             setPassword("")
             setEmail("")
+            navigate('/login')
         }  
        }catch(err){
             console.log(err)

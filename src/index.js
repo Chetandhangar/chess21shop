@@ -6,18 +6,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CartProvider } from './contexts/data-context';
-import {ProductProvider} from './contexts/products-context'
+import {ProductProvider} from './contexts/products-context';
+import {CartDataProvider} from './contexts/cart-provider'
+import {AuthProvider} from './contexts/auth-context'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
-    <ProductProvider>
-      <CartProvider>
-        <Router>
-          <App />
-        </Router>
-      </CartProvider>
-    </ProductProvider>
+    <AuthProvider>
+      <ProductProvider>
+        <CartDataProvider>
+          <CartProvider>
+            <Router>
+              <App />
+            </Router>
+          </CartProvider>
+        </CartDataProvider>
+      </ProductProvider>
+    </AuthProvider>
+   
   </React.StrictMode>,
   document.getElementById('root')
 );

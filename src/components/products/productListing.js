@@ -1,17 +1,18 @@
 import React,{useEffect, useState} from 'react';
-import { PRODUCTS } from '../../shared/products'
 import { useCart} from '../../contexts/data-context';
 import {useProducts} from '../../contexts/products-context'
 import axios from 'axios'
-
+import {useDataCart} from '../../contexts/cart-provider'
 
 
 export const ProductListing = () => {
 
     const [loading , setLoading] = useState(false)
+    const {addToCartHandlerContext} = useDataCart()
 
+    console.log("render again")
 const {cartItem , setCartItem ,dispatch, sortBy,  
-    showMagneticOnly,showWoodenOnly,showFoldableOnly , wishList} = useCart();
+    showMagneticOnly,showWoodenOnly,showFoldableOnly } = useCart();
 
     const {products, setProducts} = useProducts();
     const producturl = "https://chess21-1.chetandhangar.repl.co/products"
@@ -38,6 +39,7 @@ const {cartItem , setCartItem ,dispatch, sortBy,
 function addToCartHandler(product){
     //const newItem = [...cartItem, {...product, quantity : 1}]
     //setCartItem(newItem)
+    addToCartHandlerContext(product)
     let ind = cartItem.findIndex((cartItem) => cartItem.id === product.id);
     if (ind === -1) {
       setCartItem([...cartItem, { ...product, quantity: 1 }]);

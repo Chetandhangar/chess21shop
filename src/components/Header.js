@@ -1,6 +1,7 @@
 import {Navbar, NavbarBrand, NavItem, Nav, Collapse, NavLink} from 'reactstrap';
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import {useAuth} from '../contexts/auth-context'
 
 export const Header = () => {
     return(
