@@ -14,20 +14,19 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
+     <Router>
     <AuthProvider>
       <ProductProvider>
         <CartDataProvider>
           <WishListProvider>
             <CartProvider>
-              <Router>
                 <App />
-              </Router>
             </CartProvider>
           </WishListProvider>
         </CartDataProvider>
       </ProductProvider>
     </AuthProvider>
-   
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

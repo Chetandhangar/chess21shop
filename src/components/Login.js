@@ -1,12 +1,13 @@
 import React,{useState} from 'react'
 import {Form,FormGroup, Label, Input , Button, } from 'reactstrap';
 import {Link} from 'react-router-dom'
-import {useAuth} from '../contexts/auth-context'
+import {useAuth} from '../contexts/auth-context';
 
 export const Login = () => {
     const [username , setUsername] = useState("");
     const [password , setPassword] = useState("");
-    const {isUserLogin, setUserLogin, loginWithCredential} = useAuth();
+    const {loginWithCredential , loading} = useAuth();
+
     const handleLogin = (e) =>{
         e.preventDefault() 
         loginWithCredential(username,password)
@@ -40,7 +41,7 @@ export const Login = () => {
                    />
                </FormGroup>
                <FormGroup>
-                   <Button type="submit" value="submit" colot="primary">Login</Button>
+    <Button type="submit" value="submit" colot="primary">{loading ? "Loading" : "Login"}</Button>
                </FormGroup>
                <FormGroup>
                    <p>Don't hane an account <Link to='/signup'>SignUp</Link></p>

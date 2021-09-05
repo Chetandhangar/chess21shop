@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react'
-import { useCart } from '../contexts/data-context'
+import React, {useEffect} from 'react'
 import {useAuth} from '../contexts/auth-context';
 import {useWishList} from '../contexts/wishlist-context'
 import {useNavigate} from 'react-router-dom'
@@ -8,7 +7,6 @@ import axios from 'axios';
 export const  WishList = () => {
     //cosnt [loading .setLoading] = useState(false)
     //const {isUserLogin,token} = useAuth()
-    const {wishList, dispatch} = useCart();
     const {wishlist, removeFromWishList, loading, setLoading,dispatchWishList} = useWishList();
     console.log(wishlist, "from wishlist context")
     const navigate = useNavigate();

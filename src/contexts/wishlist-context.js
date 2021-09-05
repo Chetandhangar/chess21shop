@@ -1,4 +1,4 @@
-import React,{useState,useReducer,createContext,useContext, useEffect} from 'react';
+import React,{useState,useReducer,createContext,useContext} from 'react';
 import {useAuth} from './auth-context';
 import axios from 'axios';
 
@@ -43,10 +43,12 @@ export function WishListProvider({children}){
             {productId : product._id},
             {headers : {authorization : token}})
             console.log("ha bhai remove huva")
-            dispatchWishList({
-                type : "REMOVE_FROM_WISHLIST",
-                payload : product
-            })
+            if(respone.status === 200){
+                dispatchWishList({
+                    type : "REMOVE_FROM_WISHLIST",
+                    payload : product
+                })
+            }
         }catch(error){
             console.log(error)
         }

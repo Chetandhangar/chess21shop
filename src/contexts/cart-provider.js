@@ -1,4 +1,4 @@
-import {useState, useContext, createContext,useReducer} from 'react';
+import {useContext, createContext,useReducer} from 'react';
 import axios from 'axios';
 import {useAuth} from './auth-context'
 
@@ -114,8 +114,4 @@ export function reducer(state,{type,payload,quantity}){
         }
         default : return {...state}
     }
-}
-
-function cartHandler(cart , product){
-
 }

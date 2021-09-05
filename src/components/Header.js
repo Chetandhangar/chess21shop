@@ -1,15 +1,16 @@
-import {Navbar, NavbarBrand, NavItem, Nav, Collapse, NavLink} from 'reactstrap';
+import {Navbar, NavbarBrand, NavItem, Nav, Button, NavLink} from 'reactstrap';
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {useAuth} from '../contexts/auth-context'
 
 export const Header = () => {
+    const {isUserLogin, logout, userName} = useAuth();
     return(
         <React.Fragment>
             <Navbar dark color="primary" expand="md">
                 <div className="container">
                     <NavbarBrand>Chess21</NavbarBrand>
-            
+
                     <Nav navbar>
                         <NavItem >
                             <Link className="nav-link" to='/' style={{cursor : "pointer"}}>
@@ -24,8 +25,17 @@ export const Header = () => {
                                 <span className="fa fa-heart fa-lg"></span>WishList</Link>
                         </NavItem>
                         <NavItem>
-                            <Link className="nav-link" to="/login"style={{cursor : "pointer"}}>
+                            {isUserLogin ? 
+                            <>
+                                <Button color="primary" onClick={() => logout()}>
+                                <span className="fa fa-sign-out fa-lg">Logout</span>
+                                </Button>
+                                <span style={{color : "white"}}>{`HI ${userName}`}</span>
+                            </>
+                             :
+                                <Link className="nav-link" to="/login"style={{cursor : "pointer"}}>
                                 <span className="fa fa-sign-in fa-lg"></span>Login</Link>
+                            }
                         </NavItem>
                     </Nav>
                    

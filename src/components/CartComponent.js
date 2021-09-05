@@ -1,5 +1,4 @@
 import React,{useEffect, useState} from 'react'
-import {useCart} from '../contexts/data-context';
 import {useDataCart} from '../contexts/cart-provider';
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
