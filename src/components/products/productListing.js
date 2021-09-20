@@ -1,15 +1,18 @@
 import { useCart} from '../../contexts/data-context';
 import {useProducts} from '../../contexts/products-context'
-import {useDataCart} from '../../contexts/cart-provider';
-import {useWishList} from '../../contexts/wishlist-context'
+import {useWishList} from '../../contexts/wishlist-context';
+import {Container, Divider,Paper,Grid,Card , Typography,CardActions,Button,Link,
+    CardContent,CardActionArea,CardMedia} from '@material-ui/core'
+import useStyles from './productsStyle';
+import {checkLikes} from '../../utils/utils';
+import  './products.css'
 
 
 export const ProductListing = () => {
 
-    const {addToCartHandlerContext} = useDataCart()
-    const {addToWishList} = useWishList();
+    const {addToWishList,wishlist,removeFromWishList} = useWishList();
     const {dispatch, sortBy, showMagneticOnly,showWoodenOnly,showFoldableOnly } = useCart();
-
+    const classes = useStyles()
     const {products,} = useProducts();
 
     console.log(products, "from context")
@@ -41,88 +44,131 @@ const sortedData = getSortedList(products, sortBy);
 const filteredData = getFilteredData(sortedData, 
     {   showMagneticOnly, showWoodenOnly,showFoldableOnly})
 
-
+console.log(wishlist,'from home wishlist context list ')
    return(
     <div>
-        <div>
-            <fieldset>
-                <legend>SortBy</legend>
-                <label>
-                    <input 
-                    type = "radio"
-                    name = "sort"
-                    onChange ={() => dispatch({type : "SORT", payload : "SORT_HIGH_TO_LOW"})}
-                    //checked = {sortBy && sortBy === "SORT_HIGH_TO_LOW"}
-                    />
-                    High_To_Low
-                </label>
-                <label>
-                    <input 
-                    type = "radio"
-                    name = "sort"
-                    onChange ={() => dispatch({type : "SORT", payload : "SORT_LOW_TO_HIGH"})}
-                    //checked = {sortBy && sortBy === "SORT_LOW_TO_HIGH"}
-                    />
-                    LOW_To_High
-                </label>
-            </fieldset>
-        </div>
-        <div>
-            <fieldset>
-                <legend>Filter</legend>
-                <label>
-                    <input 
-                    type = "checkbox"
-                    name = "filter"
-                    onChange ={() => dispatch({
-                        type : "SHOW_MAGNETIC_ONLY"
-                    })}
-                    />
-                    Magnetic
-                </label>
-                <label>
-                    <input 
-                    type = "checkbox"
-                    name = "filter"
-                    onChange ={() => dispatch({
-                        type : "SHOW_WOODEN_ONLY"
-                    })}
-                    />
-                    Wooden
-                </label>
-                <label>
-                    <input 
-                    type = "checkbox"
-                    name = "filter"
-                    checked={showFoldableOnly}
-                    onChange ={() => dispatch({
-                        type : "SHOW_FOLDABLE_ONLY"
-                    })}
-                    />
-                    Foldable
-                </label>
-            </fieldset>
-        </div>
-        <h1>Products</h1>
-        <div>
+        <Container component="main" maxWidth="xs">
+            <div className={classes.paper}>
+            <Paper 
+            elevation={3}>
+                <fieldset>
+                    <legend>SortBy</legend>
+                    <label>
+                        <input 
+                        type = "radio"
+                        name = "sort"
+                        onChange ={() => dispatch({type : "SORT", payload : "SORT_HIGH_TO_LOW"})}
+                        //checked = {sortBy && sortBy === "SORT_HIGH_TO_LOW"}
+                        />
+                        High_To_Low
+                    </label>
+                    <label>
+                        <input 
+                        type = "radio"
+                        name = "sort"
+                        onChange ={() => dispatch({type : "SORT", payload : "SORT_LOW_TO_HIGH"})}
+                        //checked = {sortBy && sortBy === "SORT_LOW_TO_HIGH"}
+                        />
+                        LOW_To_High
+                    </label>
+                </fieldset> 
+            <Divider />
+
+                <fieldset>
+                    <legend>Filter</legend>
+                    <label>
+                        <input 
+                        type = "checkbox"
+                        name = "filter"
+                        onChange ={() => dispatch({
+                            type : "SHOW_MAGNETIC_ONLY"
+                        })}
+                        />
+                        Magnetic
+                    </label>
+                    <label>
+                        <input 
+                        type = "checkbox"
+                        name = "filter"
+                        onChange ={() => dispatch({
+                            type : "SHOW_WOODEN_ONLY"
+                        })}
+                        />
+                        Wooden
+                    </label>
+                    <label>
+                        <input 
+                        type = "checkbox"
+                        name = "filter"
+                        checked={showFoldableOnly}
+                        onChange ={() => dispatch({
+                            type : "SHOW_FOLDABLE_ONLY"
+                        })}
+                        />
+                        Foldable
+                    </label>
+                </fieldset>
+                </Paper>
+            </div>
+        </Container>
+    
+    <Container className={classes.productContainer}>
+        <Grid container spacing={3}>
             {!filteredData && <p>Loading ....</p>}
             {filteredData?.map((product) =>(
-                <div key={product.id} className="card">
-                    <h1>{product.name}</h1>
-                    <h3>{`Price: ${product.price}`}</h3>
-                    <img src={product.imageurl} alt={product.name}/>
-                    <h4>{product.isMagnetic ? <strong>Magnetic</strong> : <strong>Non-Magnetic</strong>}</h4>
-                    <h4>{product.isWooden ? <strong>Wooden</strong> : <strong>Plastic</strong>}</h4>
-                    <h4>{product.isFolding ? <strong>Foldable</strong> : <strong>Non-Foldable</strong>}</h4>
-                    <button onClick={() =>  addToCartHandlerContext(product)}>add to cart</button>
-                    <button>see Details</button>
-                    <button onClick = {() => addToWishList(product)}>Add To WishList</button>
-                    <hr/>
-                </div>
+                <Grid item key={product?._id} xs={12} sm={6} md={4}>
+                    <Card>
+                        <CardActionArea>
+                            <CardActions>
+                                {!checkLikes({productId : product?._id,wishlist}) ? (
+                                      <Button className={classes.cardDismissBtn}
+                                      onClick = {() => addToWishList(product)}
+                                      >
+                                          <span className="fa fa-heart-o fa-lg"></span>
+                                      </Button>
+                                ) : 
+                                <Button className={classes.cardDismissBtn}
+                                onClick = {() => removeFromWishList(product)}
+                                >
+                                    <span className="fa fa-heart fa-lg fa-color" color="secondary"></span>
+                                </Button>
+                                }
+                              
+                            </CardActions>
+                            <CardMedia 
+                            className={classes.media}
+                            image={product?.imageurl}
+                            title="Product"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {product?.name}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                {`Rs . ${product?.price}`}                               
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                  {`Type : ${product?.isMagnetic  ? "Magnetic ," : ""} 
+                                  ${product?.isWooden ?  "Wooden ," : ""}
+                                  ${product?.isFolding ? "Foldable ," : ""}
+                                  `}                           
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                        <Button size="small" color="primary">
+                        <Link href={`/products/${product?._id}`} color="inherit">
+                          See Details 
+                        </Link>
+                        </Button>
+                        </CardActions>
+                    </Card>
+                </Grid>
             ))}
-    
-         
-        </div>
+        </Grid>
+    </Container>
+       
     </div>
    )
-}
+};
+
