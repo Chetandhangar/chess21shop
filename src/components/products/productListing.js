@@ -1,11 +1,12 @@
 import { useCart} from '../../contexts/data-context';
 import {useProducts} from '../../contexts/products-context'
 import {useWishList} from '../../contexts/wishlist-context';
-import {Container, Divider,Paper,Grid,Card , Typography,CardActions,Button,Link,
+import {Container, Divider,Paper,Grid,Card , Typography,CardActions,Button,
     CardContent,CardActionArea,CardMedia} from '@material-ui/core'
 import useStyles from './productsStyle';
 import {checkLikes} from '../../utils/utils';
-import  './products.css'
+import  './products.css';
+import {Link} from 'react-router-dom'
 
 
 export const ProductListing = () => {
@@ -157,7 +158,7 @@ console.log(wishlist,'from home wishlist context list ')
                         </CardActionArea>
                         <CardActions>
                         <Button size="small" color="primary">
-                        <Link href={`/products/${product?._id}`} color="inherit">
+                        <Link to={`/products/${product?._id}`} color="inherit">
                           See Details 
                         </Link>
                         </Button>

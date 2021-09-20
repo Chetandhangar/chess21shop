@@ -1,10 +1,11 @@
 import React from 'react';
-import {Grid,CardActionArea,Card,CardContent,Typography,CardMedia,Link,Button,CardActions,CssBaseline,
+import {Grid,CardActionArea,Card,CardContent,Typography,CardMedia,Button,CardActions,CssBaseline,
 Container} from '@material-ui/core'
 import useStyles from './products/productsStyle';
 import {checkCart} from '../utils/utils'
 import {useWishList} from '../contexts/wishlist-context'
-import {useDataCart} from '../contexts/cart-provider'
+import {useDataCart} from '../contexts/cart-provider';
+import {Link} from 'react-router-dom'
 
 export const WishList = () => {
     const classes = useStyles();
@@ -50,6 +51,7 @@ export const WishList = () => {
                     <CardActions>
                     {!checkCart({productId : product?._id,cart}) ? (
                                   <Button 
+                                  color="primary"
                                   onClick = {() =>  addToCartHandlerContext(product)}
                                   >
                                     Add To Cart
@@ -58,7 +60,7 @@ export const WishList = () => {
                             <Button
                             onClick = {() => removeFromCartHandler(product)}
                             >
-                            <Link href="/cart">
+                            <Link to="/cart" color="primary">
                             Go To Cart
                             </Link>
                             </Button>
