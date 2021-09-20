@@ -16,6 +16,12 @@ const useStyles = makeStyles((theme) => ({
       position : "absolute",
       top: "0rem",
       right: "0.5rem",
+  },
+  productDetailContainer : {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   }
   }));
 
