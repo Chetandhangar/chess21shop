@@ -117,7 +117,7 @@ console.log(wishlist,'from home wishlist context list ')
         <Grid container spacing={3}>
             {!filteredData && <p>Loading ....</p>}
             {filteredData?.map((product) =>(
-                <Grid item key={product?._id} xs={12} sm={6} md={4}>
+                <Grid item key={product?._id} xs={6} sm={6} md={3}>
                     <Card>
                         <CardActionArea>
                             <CardActions>
