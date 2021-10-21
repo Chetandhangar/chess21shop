@@ -73,9 +73,11 @@ export const Header = () => {
     <div className={classes.root}>
     <AppBar position="static">
       <Toolbar>
+        <Link to="/" style={{color : "white"}}>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
           <Home />
         </IconButton>
+        </Link>
         <Typography variant="h6" className={classes.title}>
           Chess21
         </Typography>

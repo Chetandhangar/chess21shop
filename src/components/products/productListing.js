@@ -52,9 +52,9 @@ console.log(wishlist,'from home wishlist context list ')
             <div className={classes.paper}>
             <Paper 
             elevation={3}>
-                <fieldset>
-                    <legend>SortBy</legend>
-                    <label>
+                <fieldset className={classes.sort}>
+                    <legend className={classes.legend}>SortBy</legend>
+                    <label className={classes.label}>
                         <input 
                         type = "radio"
                         name = "sort"
@@ -62,8 +62,8 @@ console.log(wishlist,'from home wishlist context list ')
                         //checked = {sortBy && sortBy === "SORT_HIGH_TO_LOW"}
                         />
                         High_To_Low
-                    </label>
-                    <label>
+                    </label >
+                    <label className={classes.label}>
                         <input 
                         type = "radio"
                         name = "sort"
@@ -75,9 +75,9 @@ console.log(wishlist,'from home wishlist context list ')
                 </fieldset> 
             <Divider />
 
-                <fieldset>
-                    <legend>Filter</legend>
-                    <label>
+                <fieldset className={classes.filter}>
+                    <legend className={classes.legend}>Filter</legend>
+                    <label className = {classes.label}>
                         <input 
                         type = "checkbox"
                         name = "filter"
@@ -87,7 +87,7 @@ console.log(wishlist,'from home wishlist context list ')
                         />
                         Magnetic
                     </label>
-                    <label>
+                    <label  className = {classes.label}>
                         <input 
                         type = "checkbox"
                         name = "filter"
@@ -97,7 +97,7 @@ console.log(wishlist,'from home wishlist context list ')
                         />
                         Wooden
                     </label>
-                    <label>
+                    <label  className = {classes.label}>
                         <input 
                         type = "checkbox"
                         name = "filter"
@@ -117,7 +117,7 @@ console.log(wishlist,'from home wishlist context list ')
         <Grid container spacing={3}>
             {!filteredData && <p>Loading ....</p>}
             {filteredData?.map((product) =>(
-                <Grid item key={product?._id} xs={6} sm={6} md={3}>
+                <Grid item key={product?._id} xs={12} sm={12} md={4}>
                     <Card>
                         <CardActionArea>
                             <CardActions>
