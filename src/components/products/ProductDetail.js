@@ -1,9 +1,10 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 import {useProducts} from '../../contexts/products-context';
-import {Grid,CardActionArea,Card,CardContent,Typography,CardMedia,Link,Button,CardActions,CssBaseline,
+import {Grid,CardActionArea,Card,CardContent,Typography,CardMedia,Button,CardActions,CssBaseline,
 Container} from '@material-ui/core'
 import useStyles from './productsStyle';
+import {Link} from 'react-router-dom'
 import {checkLikes,checkCart} from '../../utils/utils'
 import {useWishList} from '../../contexts/wishlist-context';
 import {useDataCart} from '../../contexts/cart-provider';
@@ -76,14 +77,14 @@ export const ProductDetail = () => {
                             <Button
                             onClick = {() => removeFromCartHandler(product)}
                             >
-                            <Link href="/cart">
+                            <Link to="/cart">
                             Go To Cart
                             </Link>
                             </Button>
                     }
 
                     <Button>
-                        <Link href="/wishlist">Go To WishList</Link>
+                        <Link to="/wishlist">Go To WishList</Link>
                     </Button>
                     
                     </CardActions>
